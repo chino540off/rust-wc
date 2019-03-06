@@ -82,7 +82,7 @@ impl WordCount {
                 self.filename.clone(),
                 self.bufsize,
                 offset,
-                (offset + len - 1) as usize,
+                len as usize,
                 self.separators.as_bytes().clone(),
             );
 
@@ -112,5 +112,29 @@ impl WordCount {
         }
 
         Ok(result)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::WordCount;
+
+    use std::collections::BTreeMap;
+
+    #[test]
+    fn test_wc_test01() {
+        let filename = String::from("tests/test.txt");
+        let sep = String::from(" \t\r\n");
+
+        let wc = WordCount::new(&filename, &sep, 1, 1024);
+        let m = wc.process().unwrap_or(BTreeMap::new());
+
+        for i in vec![2, 3, 4, 5, 6, 7, 8, 9, 10] {
+            let wc_test = WordCount::new(&filename, &sep, i, 1024);
+            let m_test = wc_test.process().unwrap_or(BTreeMap::new());
+
+            println!("word count for {} threads", i);
+            assert_eq!(m, m_test);
+        }
     }
 }
