@@ -1,0 +1,11 @@
+[package]
+name = "wc"
+description = "Word Count" 
+version = "0.1.0"
+authors = [
+    "Olivier Detour <chino540off@gmail.com>",
+]
+publish = false
+
+[dependencies]
+getopts = "0.2"
